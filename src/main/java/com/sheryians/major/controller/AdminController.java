@@ -1,7 +1,9 @@
 package com.sheryians.major.controller;
 
+import com.sheryians.major.dataTransferObject.ProductDTO;
 import com.sheryians.major.model.Category;
 import com.sheryians.major.service.CategoryService;
+import com.sheryians.major.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class AdminController {
     @Autowired
     CategoryService categoryService;
+    @Autowired
+    ProductService productService;
 
     @GetMapping("/admin")
     public String adminHome(){
@@ -54,5 +58,22 @@ public class AdminController {
             return "404";
         }
     }
+
+    // Product Section
+
+    @GetMapping("/admin/products")
+    public String products(Model model){
+        model.addAttribute("products",productService.getAllProduct());
+        return "products";
+    }
+    @GetMapping("/admin/products/add")
+    public String productAddGet(Model model){
+        model.addAttribute("productDTO",new ProductDTO());
+        model.addAttribute("categories",categoryService.getAllCategory());
+
+        return "productsAdd";
+    }
+
+
 
 }
